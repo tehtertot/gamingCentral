@@ -1,0 +1,17 @@
+.player {
+    display: inline-block;
+    width: 25%;
+    height: 125px;
+    vertical-align: top;
+    margin: auto;
+    border: 1px solid black;
+}
+
+.card {
+    width: 100px;
+    height: 100px;
+    margin: 5px;
+    outline: 1px solid black;
+    display: inline-block;
+    vertical-align: top;
+}

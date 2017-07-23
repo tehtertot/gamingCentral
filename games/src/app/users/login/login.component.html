@@ -1,0 +1,39 @@
+<fieldset>
+  <legend>Login</legend>
+  <form (submit)="login()" #loginForm="ngForm">
+    <div class="col-sm-3"><label>Email</label></div>
+    <div class="col-sm-8">
+      <input type="text" name="lemail" class="form-control" [(ngModel)]="luser.email" required #lemail="ngModel">
+    </div>
+    <div class="col-sm-3"><label>Password</label></div>
+    <div class="col-sm-8">
+      <input type="password" name="lpassword" class="form-control" [(ngModel)]="luser.password" required #lpassword="ngModel">
+    </div>
+    <input type="submit" value="Log In" [disabled]="!loginForm.form.valid">
+    <p class="error" *ngIf="lerror">{{lerror}}</p>
+  </form>
+</fieldset>
+
+<fieldset>
+  <legend>Registration</legend>
+  <form (submit)="register()" #regForm="ngForm">
+    <div class="col-sm-3"><label>Email</label></div>
+    <div class="col-sm-8">
+      <input type="text" name="remail" class="form-control" [(ngModel)]="ruser.email" required #remail="ngModel">
+    </div>
+    <div class="col-sm-3"><label>Username</label></div>
+    <div class="col-sm-8">
+      <input type="text" name="rusername" class="form-control" [(ngModel)]="ruser.username" required #rusername="ngModel">
+    </div>
+    <div class="col-sm-3"><label>Password</label></div>
+    <div class="col-sm-8">
+      <input type="password" name="rpassword" class="form-control" [(ngModel)]="ruser.password" required #rpassword="ngModel" validateEqual="rconfirm" reverse="true">
+    </div>
+    <div class="col-sm-3"><label>Re-Type Password</label></div>
+    <div class="col-sm-8">
+      <input type="password" name="rconfirmpw" class="form-control" [(ngModel)]="ruser.confirmpw" required validateEqual="rpassword" #rconfirm="ngModel" reverse="false">
+    </div>
+    <input type="submit" value="Register" [disabled]="!regForm.form.valid">
+    <p class="error" *ngIf="rerror">{{rerror}}</p>
+  </form>
+</fieldset>

@@ -1,0 +1,23 @@
+<div *ngIf="!inPlay">
+  <p>waiting for other players to join...</p>
+</div>
+
+<div *ngIf="inPlay"> 
+  <fieldset>
+    <legend>Players</legend>
+    <fieldset *ngFor="let p of game.players" class="player">
+      <legend>{{p.username}}</legend>
+      <p *ngIf="p.id == currentUser">Total: {{p.totalTreasure}}</p>
+      <p>Current: {{p.currentTreasure}}</p>
+      <button *ngIf="!game.playersWhoLeft.includes(p.id) && p.id == currentUser && !decisionMade && !game.roundOver" (click)="stay()">Stay</button>
+      <button *ngIf="!game.playersWhoLeft.includes(p.id) && p.id == currentUser && !decisionMade && !game.roundOver" (click)="leave()">Leave</button>
+      <button *ngIf="p.id == currentUser && !decisionMade && game.roundOver" (click)="nextRound()">Start Next Round</button>
+    </fieldset>
+  </fieldset>
+</div>
+
+<h2 *ngIf="game">Round {{game.round}}</h2>
+<fieldset *ngIf="game">
+  <legend>Cards (Current Pot: {{game.roundTreasure}})</legend>
+  <img class="card" *ngFor="let c of game.deck.inPlay" [src]="c.image" [alt]="c.name">
+</fieldset> 

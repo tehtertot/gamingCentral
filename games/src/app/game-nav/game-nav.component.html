@@ -1,0 +1,21 @@
+<div class="game-slider">
+  <div class="slick-item">
+    <img src="https://cf.geekdo-images.com/AtFlJrY-roOvuIBYm9AWNmUcAsU=/fit-in/1200x630/pic440071.jpg" alt="" (click)="startIG()">
+  </div>
+  <div class="slick-item">
+    <img src="http://rollindiceshow.com/wp-content/uploads/2015/02/7Wonders-17.jpg" alt="" (click)="startSW()">
+  </div>
+  <div class="slick-item">
+    <img src="" alt="">  
+  </div>
+</div>
+
+<hr>
+
+<h1>Open Games</h1>
+  <fieldset class="game" *ngFor="let g of openGames">
+    <legend>{{ g.selection }}</legend>
+     <p>Num Players: {{g.players.length}}</p> 
+     <p>Waiting for: {{g.numPlayers}}</p>
+     <button (click)="joinGame(g)">Join</button>
+  </fieldset>
