@@ -26,17 +26,16 @@ const server = app.listen(PORT, () => {
 
 const io = require('socket.io').listen(server);
 
-const incan = io.of('/incan');
-
+//dictionary of all games, key: <<gameId from DB>>
 var games = {};
 
+//incan gold namespace
+const incan = io.of('/incan');
 const IncanGame = require('./server/models/incanGold/incanGame.js');
 const IncanDeck = require('./server/models/incanGold/incanDeck.js');
 const IncanPlayer = require('./server/models/incanGold/incanPlayer.js');
 
 incan.on('connection', (socket) => {
-    // console.log(`New connection: ${socket.id}`);
-    // incan.emit('addPlayer', {id: socket.id});
 
     socket.on('room', (roomInfo) => {
         socket.join(roomInfo.id);
@@ -91,3 +90,4 @@ incan.on('connection', (socket) => {
         }
     });
 })
+//end incan gold namespace

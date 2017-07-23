@@ -50,8 +50,6 @@ export class IncanGoldComponent implements OnInit, OnDestroy {
     this.connection = this._socket.gamePlay(c).subscribe((updatedGame) => {
       this.game = updatedGame;
       this.decisionMade = false;
-      console.log(`AFTERSTAY my status: ${this.decisionMade}, ${this.active}; game:`);
-      console.log(this.game);
     });
   }
 
@@ -62,8 +60,6 @@ export class IncanGoldComponent implements OnInit, OnDestroy {
     this.connection = this._socket.gamePlay(c).subscribe((updatedGame) => {
       this.game = updatedGame;
       this.decisionMade = false;
-      console.log(`AFTERLEAVE my status: ${this.decisionMade}, ${this.active}; game:`);
-      console.log(this.game);
     });
   }
 
@@ -73,8 +69,6 @@ export class IncanGoldComponent implements OnInit, OnDestroy {
     this.connection = this._socket.gamePlay(c).subscribe((updatedGame) => {
       this.game = updatedGame;
       this.decisionMade = false;
-      console.log(`AFTERNEW my status: ${this.decisionMade}, ${this.active}; game:`);
-      console.log(this.game);
     });
   }
 

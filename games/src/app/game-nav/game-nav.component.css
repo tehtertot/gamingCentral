@@ -15,8 +15,8 @@
 }
 	.game {
 		display: inline-block;
-		width: 25%;
+		width: auto;
 		margin: 15px;
-		height: 150px;
+		height: auto;
 		border: 1px solid black; 
 	}	

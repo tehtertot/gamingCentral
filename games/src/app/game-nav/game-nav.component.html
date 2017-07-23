@@ -13,9 +13,14 @@
 <hr>
 
 <h1>Open Games</h1>
-  <fieldset class="game" *ngFor="let g of openGames">
-    <legend>{{ g.selection }}</legend>
-     <p>Num Players: {{g.players.length}}</p> 
-     <p>Waiting for: {{g.numPlayers}}</p>
-     <button (click)="joinGame(g)">Join</button>
-  </fieldset>
+  <div *ngFor="let g of openGames">
+    <fieldset class="game" *ngIf="g.players.length < g.numPlayers">
+      <legend>{{ g.selection }}</legend>
+      <p>Waiting for: {{g.numPlayers}}</p>
+      <p>Currently Playing:</p>
+      <ul>
+        <li *ngFor="let p of g.players">{{p.username}}</li>
+      </ul>
+      <button (click)="joinGame(g)">Join</button>
+    </fieldset>
+  </div>
