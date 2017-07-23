@@ -27,5 +27,6 @@
   <div *ngIf="game.gameOver">
     <h2>Game Over!</h2>
     <p *ngFor="let p of game.players; let idx = index">{{idx+1}}: {{p.username}} {{p.totalTreasure}}</p>
+    <button><a [routerLink]="['/games']">Back to Games</a></button>
   </div>
 </div>

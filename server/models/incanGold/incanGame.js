@@ -20,14 +20,33 @@ class IncanGame {
     updateStatus() {        
         //any players choosing to leave
         if(this.playersAboutToLeave.length > 0) {
-            for (let p of this.players) {
-                if (this.playersAboutToLeave.includes(p.id)) {
-                    p.totalTreasure += Math.floor(this.roundTreasure / this.playersAboutToLeave.length) + p.currentTreasure;
-                    p.currentTreasure = null;
+
+            //if only one player left
+            if (this.playersAboutToLeave.length == 1) {
+                let pidx = this.players.findIndex(p => p.id == this.playersAboutToLeave[0]);
+                //iterate through cards in play and remove any artifacts cards
+                for (let i = 0; i < this.deck.inPlay.length; i++) {
+                    if (this.deck.inPlay[i].type == 'artifact') {
+                        this.players[pidx].totalTreasure += this.deck.inPlay[i].value;
+                        this.deck.inPlay.splice(i, 1);
+                        i--;
+                    }
                 }
+                this.players[pidx].totalTreasure += this.roundTreasure + this.players[pidx].currentTreasure;
+                this.players[pidx].currentTreasure = null;
+                this.roundTreasure = 0;
             }
-            //decrease amount of available treasure on the table
-            this.roundTreasure = this.roundTreasure % this.playersAboutToLeave.length;
+            //otherwise, all players leaving divide up treasure
+            else {
+                for (let p of this.players) {
+                    if (this.playersAboutToLeave.includes(p.id)) {
+                        p.totalTreasure += Math.floor(this.roundTreasure / this.playersAboutToLeave.length) + p.currentTreasure;
+                        p.currentTreasure = null;
+                    }
+                }
+                //decrease amount of available treasure on the table
+                this.roundTreasure = this.roundTreasure % this.playersAboutToLeave.length;
+            }
 
             //move players from leaving to left; check to see whether the round is over
             this.playersWhoLeft = this.playersWhoLeft.concat(this.playersAboutToLeave);
@@ -55,24 +74,20 @@ class IncanGame {
                     }
                     this.roundOver = true;
                 }
-                //if single hazard
-                else {
-                    this.playersPlaying = [];
-                }
             }
             //for treasure card
-            else {      
+            else if (c.type == 'treasure') {      
                 for (let p of this.players) {
-                    console.log("dividing treasure between: ", this.playersPlaying);
                     if (this.playersPlaying.includes(p.id)) {
                         p.currentTreasure += Math.floor(c.value / this.playersPlaying.length);
-                        console.log("player gets:", Math.floor(c.value / this.playersPlaying.length));
                     }
                 }
                 //add to treasure on the table; reset players
                 this.roundTreasure += c.value % this.playersPlaying.length;
-                this.playersPlaying = [];
             }
+
+            //reset players playing, regardless of card drawn
+            this.playersPlaying = []
         }
 
         //reset number of expected responses
