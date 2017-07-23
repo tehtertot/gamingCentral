@@ -20,7 +20,9 @@ export class IncanGoldComponent implements OnInit, OnDestroy {
   active: boolean = true;
 
   constructor(private _socket: IncanSocketsService, private _users: UserService, private _myRoute: ActivatedRoute, private _router: Router) { 
-    this._myRoute.params.subscribe((param) => { this.gameId = param.game_id; this.gameCap = param.game_cap });
+    this._myRoute.params.subscribe((param) => { 
+      this.gameId = param.game_id; 
+      this.gameCap = param.game_cap });
   }
 
   ngOnInit() {

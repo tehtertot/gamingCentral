@@ -79,6 +79,7 @@ class IncanGame {
         if (this.roundOver) {
             if(this.round == 5) {
                 this.gameOver = true;
+                this.setWinnerOrder();
             }
             this.numResponses = 0;
         }
@@ -98,6 +99,12 @@ class IncanGame {
         this.deck.newRoundDeck(this.doubleHazard);
         this.doubleHazard = false;
         this.roundOver = false;
+    }
+
+    setWinnerOrder() {
+        this.players.sort((a, b) => {
+            return b.totalTreasure - a.totalTreasure;
+        })
     }
 }
 

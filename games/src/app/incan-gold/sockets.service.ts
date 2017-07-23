@@ -34,9 +34,6 @@ export class IncanSocketsService {
       this.socket.on('showCard', (game) => {
         observer.next(game);
       });
-      this.socket.on('gameEnd', () => {
-        alert("Game over.");
-      })
 
       return () => {
         console.log("disconnecting..");
