@@ -18,4 +18,5 @@ export class GamesService {
   getOpenGames() {
     return this._http.get('/allOpen').map(data => data.json()).toPromise();
   }
+
 }

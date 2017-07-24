@@ -9,6 +9,7 @@ import { EqualValidator } from './equal-validator.directive';
 import { UserService } from './users/user.service';
 import { GamesService } from './game-nav/games.service';
 import { IncanSocketsService } from './incan-gold/sockets.service';
+import { MachiKoroSocketsService } from './machi/sockets.service';
 
 import { AppComponent } from './app.component';
 
@@ -19,6 +20,7 @@ import { LoginComponent } from './users/login/login.component';
 
 import { SevenWondersComponent } from './seven-wonders/seven-wonders.component';
 import { IncanGoldComponent } from './incan-gold/incan-gold.component';
+import { MachiComponent } from './machi/machi.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +30,8 @@ import { IncanGoldComponent } from './incan-gold/incan-gold.component';
     SevenWondersComponent,
     LoginComponent,
     EqualValidator,
-    IncanGoldComponent
+    IncanGoldComponent,
+    MachiComponent
   ],
   imports: [
     BrowserModule,
@@ -38,7 +41,8 @@ import { IncanGoldComponent } from './incan-gold/incan-gold.component';
   ],
   providers: [UserService,
               GamesService,
-              IncanSocketsService
+              IncanSocketsService,
+              MachiKoroSocketsService
   ],
   bootstrap: [AppComponent]
 })

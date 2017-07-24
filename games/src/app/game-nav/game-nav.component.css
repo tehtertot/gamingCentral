@@ -1,22 +1,102 @@
-.game-slider {
-	width: 85%;
-	margin: auto;
+* {
+	font-family: 'Trocchi', cursive;
+	color: #767676;
+	background-color: #202020;
+	text-align: center;
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
 }
-	.slick-item {
+
+#game-list {
+	width: 85%;
+	margin: 5% auto;
+}
+	h1 {
+		font-family: 'Sigmar One', cursive;
+		color: #767676;
+	}
+	.showgame {
+		width: 150px;
+		height: 158px;
+		border: 1px solid white;
+		margin: 0 2%;
 		display: inline-block;
+		vertical-align: top;
 	}
 	img {
-		width: 150px;
-		height: 150px;
+		max-width: 100%;
+		max-height: 70%;
+	}
+	.start, .help {
+		width: 100%;
 	}
 
 .open {
-	width: 95%;
+	display: inline-block;
+	vertical-align: top;
 }
 	.game {
 		display: inline-block;
-		width: auto;
+		width: 175px;
 		margin: 15px;
 		height: auto;
-		border: 1px solid black; 
+		border: 2px solid #0F4FA8; 
+		box-shadow: 5px 5px 5px #284C7E;
+		background-color: #6996D3;
 	}	
+		.game>h4, .game>p, .game>p>span, .game>ul>li {
+			background-color: #6996D3;
+			color: black;
+			padding: 1%;
+		}
+		.game>p, .game>ul>li {
+			font-size: 0.8em;
+		}
+		ul {
+			list-style: none;
+		}
+		.join {
+			padding: 2%;
+			margin-bottom: 10px;
+			background-color: #0F4FA8;
+			color: black;
+		}
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 25%;
+    top: 20px;
+	width: 55%;
+	height: 90%;
+    padding: 2%;
+    margin: auto;
+	background-color: grey;
+	color: black;
+    border: 1px solid white;
+}
+	.modal-content {
+		margin: 2% auto;
+		width: 90%; 
+		height: auto;
+		background-color: grey;
+		color: black;
+	}
+		.rules {
+			overflow-y: scroll;
+			height: 60%;
+			width: 100%;
+			text-align: left;
+			overflow-x: hidden !important;
+		}
+
+	.close {
+		color: white;
+		float: right;
+		font-size: 40px;
+		font-weight: bold;
+		display: block;
+		background-color: grey;
+	}

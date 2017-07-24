@@ -1,26 +1,47 @@
-<div class="game-slider">
-  <div class="slick-item">
-    <img src="https://cf.geekdo-images.com/AtFlJrY-roOvuIBYm9AWNmUcAsU=/fit-in/1200x630/pic440071.jpg" alt="" (click)="startIG()">
-  </div>
-  <div class="slick-item">
-    <img src="http://rollindiceshow.com/wp-content/uploads/2015/02/7Wonders-17.jpg" alt="" (click)="startSW()">
-  </div>
-  <div class="slick-item">
-    <img src="" alt="">  
-  </div>
+<link href="https://fonts.googleapis.com/css?family=Trocchi|Sigmar+One" rel="stylesheet">
+
+<div id="wrapper">
+
+  <h1>Game Options</h1>
+
+   <div id="game-list">
+     <div class="showgame">
+      <button class="help" (click)="showInstructions('incan')">How to Play</button>
+      <img src="https://cf.geekdo-images.com/AtFlJrY-roOvuIBYm9AWNmUcAsU=/fit-in/1200x630/pic440071.jpg" alt="">
+      <button class="start" (click)="startIG()">Start a Game</button>
+    </div>
+    <div class="showgame">
+      <button class="help" (click)="showInstructions('machi')">How to Play</button>
+      <img src="http://whatchareading.com/wp-content/uploads/2015/02/machi-koro.png" alt="">
+      <button class="start" (click)="startMK()">Start a Game</button>
+    </div>
+    <div class="showgame">
+      <button class="help" (click)="showInstructions('sw')">How to Play</button>
+      <img src="https://static1.squarespace.com/static/53ec790ae4b0396cbd14d8a1/53ec817de4b0b7e18f4ad3fe/55a467fde4b06f3bad706c07/1436837885843/7-wonders-board-game-art.jpg?format=500w" alt="">
+      <button class="start" (click)="startSW()">Start a Game</button>
+    </div>
+  </div> 
+  
+  <hr>
+
+  <h1>Open Games</h1>
+    <div *ngFor="let g of openGames" class="open">
+      <fieldset class="game" *ngIf="g.players.length < g.numPlayers">
+        <h4>{{ g.selection }}</h4>
+        <p>Need {{g.numPlayers - g.players.length}} more player(s)...</p>
+        <p>Currently Playing:</p>
+        <p><span *ngFor="let p of g.players">&#10022; {{p.username}} </span></p>
+        <button (click)="joinGame(g)" class="join">Join</button>
+      </fieldset>
+    </div>
+
 </div>
 
-<hr>
-
-<h1>Open Games</h1>
-  <div *ngFor="let g of openGames">
-    <fieldset class="game" *ngIf="g.players.length < g.numPlayers">
-      <legend>{{ g.selection }}</legend>
-      <p>Waiting for: {{g.numPlayers}}</p>
-      <p>Currently Playing:</p>
-      <ul>
-        <li *ngFor="let p of g.players">{{p.username}}</li>
-      </ul>
-      <button (click)="joinGame(g)">Join</button>
-    </fieldset>
-  </div>
+<div id="instructions" class="modal">
+    <span class="close" (click)="closeModal()">&times;</span>
+    <h3 class="modal-content">Game: {{instructions.name}}</h3>
+    <h4 class="modal-content">Goal</h4>
+    <p class="modal-content">{{instructions.goal}}</p>
+    <h4 class="modal-content">Instructions</h4>
+    <pre class="modal-content rules" style="white-space:pre-wrap;">{{instructions.rules}}</pre>
+</div>
