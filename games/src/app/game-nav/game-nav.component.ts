@@ -33,7 +33,14 @@ export class GameNavComponent implements OnInit {
 
   joinGame(game) {
     this._games.joinGame(game)
-    .then(() => { this._router.navigate(['/incan', game.numPlayers, game._id]); })
+    .then(() => { 
+      if (game.selection == 'Machi Koro') {
+        this._router.navigate(['/machi', game.numPlayers, game._id]);
+      }
+      else if (game.selection == 'Incan Gold') {
+        this._router.navigate(['/incan', game.numPlayers, game._id]);
+      }
+    })
     .catch((err) => { console.log(err); });
   }
 

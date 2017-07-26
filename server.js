@@ -91,3 +91,45 @@ incan.on('connection', (socket) => {
     });
 })
 //end incan gold namespace
+
+const machi = io.of('/machi');
+const MachiGame = require('./server/models/machiKoro/machiKoroGame.js');
+const MachiDeck = require('./server/models/machiKoro/machiKoroDeck.js');
+const MachiPlayer = require('./server/models/machiKoro/machiKoroPlayer.js');
+
+machi.on('connection', (socket) => {
+    socket.on('mroom', (roomInfo) => {
+        socket.join(roomInfo.id);
+        if (!games[roomInfo.id]) {
+            let g = new MachiGame(roomInfo.id, roomInfo.cap);
+            let p = new MachiPlayer(roomInfo.player.playerId, roomInfo.player.username, socket.id);
+            g.players.push(p);
+            games[roomInfo.id] = g;
+        }
+        else {
+            let p = new MachiPlayer(roomInfo.player.playerId, roomInfo.player.username, socket.id);
+            games[roomInfo.id].players.push(p);
+            //once enough players are in, start game
+            if (games[roomInfo.id].players.length == games[roomInfo.id].totalPlayers) {
+                console.log("1: *******", roomInfo.id);
+                machi.to(roomInfo.id).emit('startMKGame', games[roomInfo.id]);
+            }
+        }
+    });
+    
+    socket.on('rolled', (rollInfo) => {
+        let results = games[rollInfo.gameId].rollResults(rollInfo.rollVal);
+        let info = {results: results, game: games[rollInfo.gameId]};
+        console.log("2: ********", rollInfo.gameId);
+        machi.to(rollInfo.gameId).emit('updateCoins', info);
+    });
+
+    socket.on('purchased', (info) => {
+        games[info.gameId].purchaseCard(info.card);
+        console.log("3: **********", info.gameId);
+        machi.to(info.gameId).emit('turnOver', games[info.gameId]);
+        let p = games[info.gameId].switchTurns();
+        console.log("4: **********", p);
+        io.to(p).emit('newTurn', games[info.gameId]);
+    });
+})

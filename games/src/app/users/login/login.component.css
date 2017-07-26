@@ -1,3 +1,42 @@
+* {
+	font-family: 'Trocchi', cursive;
+	color: #767676;
+	background-color: #202020;
+	text-align: center;
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+}
+#wrapper {
+    width: 95%;
+    margin: 50px auto;
+}
+h1 {
+    font-family: 'Sigmar One', cursive;
+    color: #767676;
+	}
 .error {
     color: red;
+}
+
+form, fieldset {
+    display: inline-block;
+    width: auto;
+    padding: 2% 3%;
+    vertical-align: top;
+}
+.divider {
+    width: 2%;
+    display: inline-block;
+
+}
+
+input {
+    margin: 10px 0;
+}
+
+button {
+    margin: 10px auto;
+    background-color: lightskyblue;
+    color: black;
 }

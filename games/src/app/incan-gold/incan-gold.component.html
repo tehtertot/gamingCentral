@@ -1,32 +1,45 @@
+<link href="https://fonts.googleapis.com/css?family=Permanent+Marker|Special+Elite" rel="stylesheet">
+<h1>INCAN GOLD</h1>
 <div *ngIf="!inPlay">
   <p>waiting for other players to join...</p>
 </div>
 
-<div *ngIf="inPlay"> 
-  
-  <div *ngIf="!game.gameOver">
-    <fieldset>
-      <legend>Players</legend>
-      <fieldset *ngFor="let p of game.players" class="player">
-        <legend>{{p.username}}</legend>
-        <p *ngIf="p.id == currentUser">Total: {{p.totalTreasure}}</p>
-        <p>Current: {{p.currentTreasure}}</p>
-        <button *ngIf="!game.playersWhoLeft.includes(p.id) && p.id == currentUser && !decisionMade && !game.roundOver" (click)="stay()">Stay</button>
-        <button *ngIf="!game.playersWhoLeft.includes(p.id) && p.id == currentUser && !decisionMade && !game.roundOver" (click)="leave()">Leave</button>
-        <button *ngIf="p.id == currentUser && !decisionMade && game.roundOver" (click)="nextRound()">Start Next Round</button>
-      </fieldset>
-    </fieldset>
+<div *ngIf="inPlay" class="wrapper"> 
 
+  <div *ngIf="!game.gameOver">
     <h2>Round {{game.round}}</h2>
-    <fieldset>
-      <legend>Cards (Current Pot: {{game.roundTreasure}})</legend>
-      <img class="card" *ngFor="let c of game.deck.inPlay" [src]="c.image" [alt]="c.name">
-    </fieldset> 
+    <div class="players">
+      <fieldset>
+        <legend>Players</legend>
+        <fieldset *ngFor="let p of game.players" class="player">
+          <h5>{{p.username}}</h5>
+          <p *ngIf="p.id == currentUser">Total: {{p.totalTreasure}}</p>
+          <p>Current: {{p.currentTreasure}}</p>
+          <button *ngIf="!game.playersWhoLeft.includes(p.id) && p.id == currentUser && !decisionMade && !game.roundOver" (click)="stay()" class="stay">Stay</button>
+          <button *ngIf="!game.playersWhoLeft.includes(p.id) && p.id == currentUser && !decisionMade && !game.roundOver" (click)="leave()" class="leave">Leave</button>
+          <button *ngIf="p.id == currentUser && !decisionMade && game.roundOver" (click)="nextRound()">Start Next Round</button>
+        </fieldset>
+      </fieldset>
+    </div>
+
+    <div class="board">
+      <fieldset class="cards">
+        <legend>Cards (Current Pot: {{game.roundTreasure}})</legend>
+        <img *ngFor="let c of game.deck.inPlay" [src]="c.image" [alt]="c.name" class="card {{c.type}}">
+      </fieldset> 
+    </div>
+
+      <fieldset class="details">
+        <legend>Results</legend>
+          <textarea id="results" readonly>{{game.results}}</textarea>
+      </fieldset>
+
   </div>
 
-  <div *ngIf="game.gameOver">
+  <div *ngIf="game.gameOver" class="gameover">
     <h2>Game Over!</h2>
     <p *ngFor="let p of game.players; let idx = index">{{idx+1}}: {{p.username}} {{p.totalTreasure}}</p>
     <button><a [routerLink]="['/games']">Back to Games</a></button>
   </div>
+
 </div>

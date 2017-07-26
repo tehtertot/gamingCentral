@@ -15,6 +15,7 @@ class IncanGame {
         this.roundOver = false;
         this.gameOver = false;
         this.totalPlayers = totalPlayers;   //initial input from first user for number of players
+        this.results = '';
     }
 
     updateStatus() {        
@@ -25,12 +26,19 @@ class IncanGame {
             if (this.playersAboutToLeave.length == 1) {
                 let pidx = this.players.findIndex(p => p.id == this.playersAboutToLeave[0]);
                 //iterate through cards in play and remove any artifacts cards
+                var withArtifacts = false;
                 for (let i = 0; i < this.deck.inPlay.length; i++) {
                     if (this.deck.inPlay[i].type == 'artifact') {
                         this.players[pidx].totalTreasure += this.deck.inPlay[i].value;
                         this.deck.inPlay.splice(i, 1);
+                        withArtifacts = true;
                         i--;
                     }
+                }
+                if (withArtifacts) {
+                    this.results = `${this.players[pidx].username} leaves and takes the artifact(s).\n` + this.results;
+                } else {
+                    this.results = `${this.players[pidx].username} leaves.\n` + this.results;
                 }
                 this.players[pidx].totalTreasure += this.roundTreasure + this.players[pidx].currentTreasure;
                 this.players[pidx].currentTreasure = null;
@@ -38,12 +46,15 @@ class IncanGame {
             }
             //otherwise, all players leaving divide up treasure
             else {
+                let note = [];
                 for (let p of this.players) {
                     if (this.playersAboutToLeave.includes(p.id)) {
+                        note.push(p.username);
                         p.totalTreasure += Math.floor(this.roundTreasure / this.playersAboutToLeave.length) + p.currentTreasure;
                         p.currentTreasure = null;
                     }
                 }
+                this.results = note.join(',') + " leave.\n" + this.results;
                 //decrease amount of available treasure on the table
                 this.roundTreasure = this.roundTreasure % this.playersAboutToLeave.length;
             }
@@ -72,6 +83,7 @@ class IncanGame {
                     for (let p of this.players) {
                         p.currentTreasure = null;
                     }
+                    this.results = `2 ${c.name} cards were drawn.\n` + this.results;
                     this.roundOver = true;
                 }
             }
@@ -105,6 +117,7 @@ class IncanGame {
 
     startNewRound() {
         this.round++;
+        this.results = `Round ${this.round} starting...\n` + this.results;
         for (let p of this.players) {
             p.currentTreasure = 0;
         }

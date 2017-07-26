@@ -69,6 +69,9 @@ export class IncanGoldComponent implements OnInit, OnDestroy {
     this.connection = this._socket.gamePlay(c).subscribe((updatedGame) => {
       this.game = updatedGame;
       this.decisionMade = false;
+      if(this.game["gameOver"]){
+        console.log("GAME OVER MAN!");
+      }
     });
   }
 

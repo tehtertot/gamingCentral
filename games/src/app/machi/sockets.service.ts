@@ -14,9 +14,16 @@ export class MachiKoroSocketsService {
     let observable = new Observable(observer => {
       this.socket = io.connect('/machi');
       this.socket.on('connect', () => {
-        this.socket.emit('room', gameInfo);
+        this.socket.emit('mroom', gameInfo);
       });
-      this.socket.on('startGame', (game) => {
+      this.socket.on('startMKGame', (game) => {
+        observer.next(game);
+      });
+      this.socket.on('newTurn', (game) => {
+        console.log("HERKEEJLRKEJRK");
+        observer.next(game);
+      });
+      this.socket.on('updateCoins', (game) => {
         observer.next(game);
       });
 
@@ -28,19 +35,34 @@ export class MachiKoroSocketsService {
     return observable;
   }
 
-  gamePlay(choice) {
-    let observable = new Observable(observer => {
-      this.socket.emit('madeChoice', choice);
-      this.socket.on('showCard', (game) => {
-        observer.next(game);
-      });
+  gameRoll(roll) {
+    // let observable = new Observable(observer => {
+      this.socket.emit('rolled', roll);
+      // this.socket.on('updateCoins', (game) => {
+      //   observer.next(game);
+      // });
 
-      return () => {
-        console.log("disconnecting..");
-        this.socket.disconnect();
-      };
-    })
-    return observable;
+      // return () => {
+      //   console.log("disconnecting..");
+      //   this.socket.disconnect();
+      // };
+    // })
+    // return observable;
+  }
+
+  gamePurchase(info) {
+    // let observable = new Observable(observer => {
+      this.socket.emit('purchased', info);
+    //   this.socket.on('turnOver', (game) => {
+    //     observer.next(game);
+    //   });
+
+    //   // return () => {
+    //   //   console.log("disconnecting...");
+    //   //   this.socket.disconnect();
+    //   // }
+    // })
+    // return observable;
   }
 
 }
