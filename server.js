@@ -14,6 +14,7 @@ app.use(session({ secret: 'sdlfjadfljdslfk',
 
 app.use(express.static(path.join(__dirname, '/games/dist')));
 app.use('/incan', express.static(path.join(__dirname, '/games/src/app/incan-gold/images')));
+app.use('/machi', express.static(path.join(__dirname, '/games/src/app/machi/images')));
 
 require('./server/config/mongoose.js');
 require('./server/config/routes.js')(app);
@@ -111,7 +112,6 @@ machi.on('connection', (socket) => {
             games[roomInfo.id].players.push(p);
             //once enough players are in, start game
             if (games[roomInfo.id].players.length == games[roomInfo.id].totalPlayers) {
-                console.log("1: *******", roomInfo.id);
                 machi.to(roomInfo.id).emit('startMKGame', games[roomInfo.id]);
             }
         }
@@ -120,16 +120,35 @@ machi.on('connection', (socket) => {
     socket.on('rolled', (rollInfo) => {
         let results = games[rollInfo.gameId].rollResults(rollInfo.rollVal);
         let info = {results: results, game: games[rollInfo.gameId]};
-        console.log("2: ********", rollInfo.gameId);
-        machi.to(rollInfo.gameId).emit('updateCoins', info);
+        machi.to(rollInfo.gameId).emit('gameUpdated', info);
     });
 
     socket.on('purchased', (info) => {
         games[info.gameId].purchaseCard(info.card);
-        console.log("3: **********", info.gameId);
-        machi.to(info.gameId).emit('turnOver', games[info.gameId]);
+        let res = {results: "", game: games[info.gameId]};
         let p = games[info.gameId].switchTurns();
-        console.log("4: **********", p);
-        io.to(p).emit('newTurn', games[info.gameId]);
+        machi.to(info.gameId).emit('gameUpdated', res);
+    });
+
+    socket.on('landmark', (info) => {
+        let cost = [4, 10, 16, 22];
+        let g = games[info.gameId];
+        g.players[g.turn].coins -= cost[info.landmark];
+        g.players[g.turn].progress[info.landmark] = true;
+        let res = {results: "", game: games[info.gameId]};
+        if (g.players[g.turn].progress[0] && g.players[g.turn].progress[1] && g.players[g.turn].progress[2] && g.players[g.turn].progress[3]) {
+            games[info.gameId].gameOver = true;
+            games[info.gameId].winner = g.players[g.turn];
+        }
+        else {
+            games[info.gameId].switchTurns();
+        }
+        machi.to(info.gameId).emit('gameUpdated', res);
+    });
+
+    socket.on('passed', (info) => {
+        games[info.gameId].switchTurns();
+        let res = {results: '', game: games[info.gameId]};
+        machi.to(info.gameId).emit('gameUpdated', res);
     });
 })

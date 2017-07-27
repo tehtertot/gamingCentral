@@ -1,28 +1,69 @@
+<link href="https://fonts.googleapis.com/css?family=Fontdiner+Swanky|Artifika" rel="stylesheet">
+
+<h1>Machi Koro</h1>
 <div *ngIf="!inPlay">
   <p>waiting for other players to join...</p>
 </div>
 
 <div *ngIf="inPlay"> 
-  <fieldset class="marketplace">
-    <legend>Marketplace (Deck: {{game.deck.cards.length}})</legend>
-      <div class="mcard" *ngFor="let c of displayDeck" (click)="purchaseCard(c)">{{c.roll}} - {{c.name}} Cost: {{c.cost}}</div>
-  </fieldset>
+  <div *ngIf="!game.gameOver">
+    <fieldset class="marketplace">
+      <legend>Marketplace (Deck: {{game.deck.cards.length}})</legend>
+        <div class="mcard" *ngFor="let c of game.deck.inPlay" (click)="purchaseCard(c)"><img class="marketcard" [src]="c.image" alt=""></div>
+    </fieldset>
 
-  <textarea class="results" readonly>{{results}}</textarea>
-
-  <p>{{currentUser}}</p>
-  <p>{{game.players[game.turn].id}}</p>
-  <p>my socket: {{game.players | json}}</p>
-  <div class="options" *ngIf="currentUser == game.players[game.turn].id">
-    <button (click)="rollOne()" *ngIf="!decisionMade">Roll 1</button>
-    <button (click)="rollTwo()" *ngIf="!decisionMade" [disabled]="!game.players[game.turn].progress[0]">Roll 2</button>
-    <p *ngIf="canPurchase && game.players[game.turn].coins > 0">Click on a card or a landmark to purchase!</p>
-    <p *ngIf="canPurchase && game.players[game.turn].coins == 0">Not enough coins to purchase anything :( Your turn is over.</p>
-  </div>
-  <div class="panel-group" *ngFor="let p of game.players">
-    <button class="accordion">{{p.username}} {{p.progress}} ${{p.coins}}$</button>
-    <div class="panel">
-      <p *ngFor="let c of p.cards">{{c.roll}} - {{c.name}}</p>
+    <div class="playbox">
+      <div class="options" *ngIf="currentUser == game.players[game.turn].id">
+        <h3>Play:</h3>
+          <button (click)="rollOne()" *ngIf="!rolled && !canPurchase" class="play">Roll 1</button>
+          <button (click)="rollTwo()" *ngIf="!rolled && !canPurchase && game.players[game.turn].progress[0]" class="play">Roll 2</button>
+          
+          <p *ngIf="canPurchase">Click on a card or a landmark to purchase or 
+          <button class="play" (click)="pass()">Pass</button></p>
+      </div>
+      <div class="options" *ngIf="currentUser != game.players[game.turn].id">
+        <p>{{game.players[game.turn].username}}'s turn...</p>
+      </div>
     </div>
+
+    <div class="panel-group">  
+      <div *ngFor="let p of game.players">
+        <button class="accordion">
+          <div class="username {{currentUser == p.id}}">
+            {{p.username}}
+          </div>
+          <div class="money">
+            <button class="coin">&nbsp;<span class="yen">¥</span>{{p.coins}}&nbsp;&nbsp;</button>
+          </div>
+          <div class="landmarks">
+            <button class="train {{p.progress[0]}}" (click)="buildLandmark(0)" (mouseover)="showLandmark(0)" [disabled]="p.progress[0]">Train 4</button>
+              <span id="traincard" display="none">
+                <img src="/machi/trainStation.jpg" />
+              </span>
+            <button class="mall {{p.progress[1]}}" (click)="buildLandmark(1)" (mouseover)="showLandmark(1)" [disabled]="p.progress[1]">Mall 10</button>
+            <button class="park {{p.progress[2]}}" (click)="buildLandmark(2)" (mouseover)="showLandmark(2)" [disabled]="p.progress[2]">Park 16</button>
+            <button class="tower {{p.progress[3]}}" (click)="buildLandmark(3)" (mouseover)="showLandmark(3)" [disabled]="p.progress[3]">Tower 22</button>
+          </div>
+        </button>
+        <div class="panel">
+          <p *ngFor="let c of p.cards" (mouseover)="showCardDetails(c)">{{c.roll}} - {{c.name}}</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="sidebar">
+      <div class="gamelog">
+        <fieldset>
+          <legend>Game Log</legend>
+          <textarea class="results" readonly>{{results}}</textarea>
+        </fieldset>
+      </div>
+    </div>
+
+  </div>
+
+  <div *ngIf="game.gameOver" class="gameover">
+    <h2>{{game.winner.username}} wins!</h2>
+    <button><a [routerLink]="['/games']">Back to Games</a></button>
   </div>
 </div>

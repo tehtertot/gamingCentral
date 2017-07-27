@@ -1,5 +1,15 @@
+* {
+    font-family: 'Artifika', serif;
+    text-align: center;
+}
+
+h1 {
+    font-family: 'Fontdiner Swanky', serif;
+    color: lightblue;
+}
 .marketplace {
-    width: 98%
+    width: 98%;
+    height: 60%;
 }
     .mcard {
         display: inline-block;
@@ -7,34 +17,139 @@
         margin: 2% auto;
         width: 18%;
         height: 200px;
-        border: 1px solid white;
+    }
+    .marketcard {
+        max-width: 100%;
+        max-height: 100%;
     }
 
-.results {
-    margin: 4% auto;
-    width: 95%;
-    overflow-y: scroll;
+.playbox {
+    width: 98%;
+    margin: 10px auto;
+    height: 75px;
 }
+    button.play {
+        padding: 5px 10px;
+        background-color: lightskyblue;
+        color: white;
+    }
 
 button.accordion {
     background-color: #eee;
     color: #444;
     cursor: pointer;
     padding: 18px;
-    width: 100%;
+    width: 95%;
     text-align: left;
     border: none;
     outline: none;
     transition: 0.4s;
 }
-button.accordion.active, button.accordion:hover {
-    background-color: #ddd;
-}
+    .panel-group {
+        margin: auto;
+        display: inline-block;
+        vertical-align: top;
+        width: 80%;
+    }
+        .username {
+            display: inline-block;
+            vertical-align: top;
+            text-align: left;
+            width: 15%;
+            font-size: 1.5em;
+            font-style: bold;
+            background-color: #eee;
+        }
+        .username.true {
+            color: blue;
+        }
+        .money {
+            display: inline-block;
+            text-align: right;
+            width: 10%;
+            font-size: 1.5em;
+            background-color: #eee;
+        }
+            .coin {
+                background-color: mediumpurple;
+                font-size: 1.5em;
+                border-radius: 50%;
+                color: black;
+                border: 1px solid mediumslateblue;
+                padding: 4% 1%;
+            }
+            .yen {
+                font-size: 0.5em;
+                background-color: mediumpurple;
+                color: black;
+            }
+        .landmarks {
+            display: inline-block;
+            vertical-align: top;
+            text-align: right;
+            width: 70%;
+            background-color: #eee;
+        }
+            .landmarks>button {
+                color: white;
+                width: 50px;
+                height: 50px;
+                margin: 10px;
+            }
+            button.false {
+                background-color: grey;
+            }
+            button.train.true {
+                background-color: lightcoral;
+            } 
+            button.mall.true {
+                background-color: lightseagreen;
+            }
+            button.park.true {
+                background-color: lightsalmon;
+            }
+            button.tower.true {
+                background-color: yellowgreen;
+            }
+            .traincard {
+                width: 100px;
+            }
+
 div.panel {
     padding: 0 18px;
+    width: 95%;
     background-color: white;
-    /* display: none; */
+    margin: 0 auto 10px auto;
 }
     .panel>p {
         background-color: white;
+        display: inline-block;
+        vertical-align: top;
+    }
+
+.sidebar {
+    display: inline-block;
+    vertical-align: top;
+    width: 13%;
+}
+    .gamelog {
+        display: inline-block;
+        vertical-align: top;
+        width: 98%;
+        height: 50%;
+    }
+        textarea {
+            border: none;
+            outline: none;
+            width: 98%;
+            height: 98%;
+        }
+
+.gameover>h2 {
+        color: white;
+    } 
+    a {
+        background-color: darkgray;
+        color: black;
+        text-decoration: none;
     }

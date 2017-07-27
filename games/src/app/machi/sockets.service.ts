@@ -5,7 +5,6 @@ import * as io from 'socket.io-client';
 
 @Injectable()
 export class MachiKoroSocketsService {
-  private url = 'http://localhost:8000';
   private socket;
 
   constructor() { }
@@ -18,14 +17,7 @@ export class MachiKoroSocketsService {
       });
       this.socket.on('startMKGame', (game) => {
         observer.next(game);
-      });
-      this.socket.on('newTurn', (game) => {
-        console.log("HERKEEJLRKEJRK");
-        observer.next(game);
-      });
-      this.socket.on('updateCoins', (game) => {
-        observer.next(game);
-      });
+      })
 
       return () => {
         console.log("disconnecting..");
@@ -36,33 +28,41 @@ export class MachiKoroSocketsService {
   }
 
   gameRoll(roll) {
-    // let observable = new Observable(observer => {
       this.socket.emit('rolled', roll);
-      // this.socket.on('updateCoins', (game) => {
-      //   observer.next(game);
-      // });
-
-      // return () => {
-      //   console.log("disconnecting..");
-      //   this.socket.disconnect();
-      // };
-    // })
-    // return observable;
   }
 
   gamePurchase(info) {
-    // let observable = new Observable(observer => {
       this.socket.emit('purchased', info);
-    //   this.socket.on('turnOver', (game) => {
-    //     observer.next(game);
-    //   });
+  }
 
-    //   // return () => {
-    //   //   console.log("disconnecting...");
-    //   //   this.socket.disconnect();
-    //   // }
-    // })
-    // return observable;
+  buildLandmark(info) {
+    this.socket.emit('landmark', info);
+  }
+
+  passTurn(info) {
+    this.socket.emit('passed', info);
+  }
+
+  gameUpdated() {
+    let observable = new Observable(observer => {
+      this.socket.on('gameUpdated', (game) => {
+        observer.next(game);
+      })
+    })
+    return observable;
+  }
+
+  startTurn() {
+    let observable = new Observable(observer => {
+      this.socket.on('switchTurns', (game) => {
+        observer.next(game);
+      })
+    })
+    return observable;
+  }
+
+  disconnect() {
+    this.socket.disconnect();
   }
 
 }

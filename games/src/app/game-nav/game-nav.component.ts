@@ -49,11 +49,16 @@ export class GameNavComponent implements OnInit {
     g.players.push(this.currentUser);
     while (g.numPlayers < 3 || g.numPlayers > 8) {
       g.numPlayers = Number(prompt("How many players (3 - 8)?"));
-    };
-    g.selection = "Incan Gold";
-    this._games.startGame(g)
-    .then((g) => { this._router.navigate(['/incan', g.numPlayers, g._id]); })
-    .catch((err) => { console.log(err); });
+      if (g.numPlayers == 0) {
+        break;
+      }
+    }
+    if (g.numPlayers != 0) {
+      g.selection = "Incan Gold";
+      this._games.startGame(g)
+      .then((g) => { this._router.navigate(['/incan', g.numPlayers, g._id]); })
+      .catch((err) => { console.log(err); });
+    }
   }
 
   startSW() {
@@ -74,11 +79,16 @@ export class GameNavComponent implements OnInit {
     g.players.push(this.currentUser);
     while (g.numPlayers < 2 || g.numPlayers > 4) {
       g.numPlayers = Number(prompt("How many players (2 - 4)?"));
-    };
-    g.selection = "Machi Koro";
-    this._games.startGame(g)
-    .then((g) => { this._router.navigate(['/machi', g.numPlayers, g._id]); })
-    .catch((err) => { console.log(err); });
+      if (g.numPlayers == 0) {
+        break;
+      }
+    }
+    if (g.numPlayers != 0) {
+      g.selection = "Machi Koro";
+      this._games.startGame(g)
+      .then((g) => { this._router.navigate(['/machi', g.numPlayers, g._id]); })
+      .catch((err) => { console.log(err); });
+    }
   }
 
   showInstructions(game) {

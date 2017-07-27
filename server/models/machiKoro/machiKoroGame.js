@@ -7,6 +7,8 @@ class MachiKoroGame {
         this.deck = new MachiKoroDeck();
         this.turn = 0;
         this.totalPlayers = totalPlayers;   //initial input from first user for number of players
+        this.gameOver = false;
+        this.winner;
     }
 
     rollResults(rollVal) {
@@ -56,7 +58,15 @@ class MachiKoroGame {
                 this.players[this.turn].rolls[idx][2] += card.reward;
             }
             else if (card.type == 'purple') {
-                
+                if (card.name == 'Stadium') {
+                    this.players[this.turn].majorEstablishments.stadium = true;
+                }
+                else if (card.name == 'TV Station') {
+                    this.players[this.turn].majorEstablishments.tv = true;
+                }
+                else if (card.name == 'Business Center') {
+                    this.players[this.turn].majorEstablishments.business = true;
+                }
             }
         }
         this.players[this.turn].cards.push(card);

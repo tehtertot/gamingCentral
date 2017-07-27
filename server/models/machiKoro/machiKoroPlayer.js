@@ -21,7 +21,15 @@ class MachiKoroPlayer {
                       roll9: [0,0,0],
                      roll10: [0,0,0],
                      roll11: [0,0,0],
-                     roll12: [0,0,0]} //[blue roll, green roll, red roll]
+                     roll12: [0,0,0]}; //[blue roll, green roll, red roll]
+        this.majorEstablishments = {stadium: false, 
+                                    tv: false,
+                                    business: false,
+                                    publisher: false,
+                                    tax: false,
+                                    renovation: false,
+                                    tech: false,
+                                    park: false};
     }
 }
 
