@@ -67,7 +67,7 @@ h1 {
         }
 
 .panel-group {
-    margin: auto;
+    margin: 10px auto;
     display: inline-block;
     vertical-align: top;
     width: 24%;
@@ -167,7 +167,7 @@ div.panel {
     width: 95%;
     border-top: 1px solid black;
     background-color: white;
-    margin: 0 auto 10px auto;
+    margin: 0 auto;
     font-size: 0.8em;
     overflow-y: scroll;
 }
