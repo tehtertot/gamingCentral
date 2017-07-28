@@ -26,12 +26,12 @@
       <div class="gamelog">
           <img class="dice" [@rollDieOne]="state" id="die1" src="" alt="">
           <img class="dice" [@rollDieTwo]="state" id="die2" src="" alt="">
-          <textarea class="results" readonly>{{results}}</textarea>
+          <textarea class="results" readonly>{{game.results}}</textarea>
       </div>
     </div>
 
-    <div class="panel-group">  
-      <div *ngFor="let p of game.players; let idx = index">
+    <div>  
+      <div class="panel-group" *ngFor="let p of game.players; let idx = index">
         <button class="accordion">
           <div class="username {{currentUser == p.id}}">
             {{p.username}}
@@ -39,19 +39,19 @@
           <div class="money">
             <button class="coin">&nbsp;<span class="yen">¥</span>{{p.coins}}&nbsp;</button>
           </div>
-          <div class="landmarks">
-            <button class="train {{p.progress[0]}}" (click)="buildLandmark(0)" (mouseenter)="showLandmark(0, idx)" (mouseleave)="hideLandmark(0, idx)" [disabled]="p.progress[0]" title="roll 1 or 2 dice">Train 4</button>
-              <img src="/machi/trainStation.jpg"  class="traincard"/>
-            <button class="mall {{p.progress[1]}}" (click)="buildLandmark(1)" (mouseenter)="showLandmark(1, idx)" (mouseleave)="hideLandmark(1, idx)" [disabled]="p.progress[1]" title="additional value">Mall 10</button>
-              <img src="/machi/shoppingMall.jpg" class="mallcard"/>
-            <button class="park {{p.progress[2]}}" (click)="buildLandmark(2)" (mouseenter)="showLandmark(2, idx)" (mouseleave)="hideLandmark(2, idx)" [disabled]="p.progress[2]">Park 16</button>
-              <img src="/machi/amusementPark.jpg" class="parkcard"/>
-            <button class="tower {{p.progress[3]}}" (click)="buildLandmark(3)" (mouseenter)="showLandmark(3, idx)" (mouseleave)="hideLandmark(3, idx)" [disabled]="p.progress[3]">Tower 22</button>
-              <img src="/machi/radioTower.jpg" class="towercard"/>
-          </div>
         </button>
         <div class="panel">
-            <p *ngFor="let c of p.cards" title="Reward: {{c.reward}}, Category: {{c.category}}" class="playercard">{{c.roll}} - {{c.name}}</p>
+            <p *ngFor="let c of p.cards" title="Reward: {{c.reward}}, Category: {{c.category}}" class="card {{c.type}}">{{c.roll}} - {{c.name}}</p>
+        </div>
+        <div class="landmarks">
+          <button class="train {{p.progress[0]}}" (click)="buildLandmark(0)" (mouseenter)="showLandmark(0, idx)" (mouseleave)="hideLandmark(0, idx)" [disabled]="p.progress[0]" title="roll 1 or 2 dice">Train 4</button>
+            <img src="/machi/trainStation.jpg"  class="traincard"/>
+          <button class="mall {{p.progress[1]}}" (click)="buildLandmark(1)" (mouseenter)="showLandmark(1, idx)" (mouseleave)="hideLandmark(1, idx)" [disabled]="p.progress[1]" title="additional value">Mall 10</button>
+            <img src="/machi/shoppingMall.jpg" class="mallcard"/>
+          <button class="park {{p.progress[2]}}" (click)="buildLandmark(2)" (mouseenter)="showLandmark(2, idx)" (mouseleave)="hideLandmark(2, idx)" [disabled]="p.progress[2]">Park 16</button>
+            <img src="/machi/amusementPark.jpg" class="parkcard"/>
+          <button class="tower {{p.progress[3]}}" (click)="buildLandmark(3)" (mouseenter)="showLandmark(3, idx)" (mouseleave)="hideLandmark(3, idx)" [disabled]="p.progress[3]">Tower 22</button>
+            <img src="/machi/radioTower.jpg" class="towercard"/>
         </div>
       </div>
     </div>

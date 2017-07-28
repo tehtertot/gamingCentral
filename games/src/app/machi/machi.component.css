@@ -8,8 +8,10 @@ h1 {
     color: lightblue;
 }
 .marketplace {
-    width: 98%;
-    height: 60%;
+    display: inline-block;
+    vertical-align: top;
+    width: 70%;
+    height: 50%;
 }
     .mcard {
         display: inline-block;
@@ -24,14 +26,15 @@ h1 {
     }
 
 .playbox {
-    width: 98%;
-    margin: 10px auto;
-    height: 125px;
+    display: inline-block;
+    vertical-align: top;
+    width: 28%;
 }
     .options {
         display: inline-block;
         vertical-align: top;
-        width: 65%;
+        width: 90%;
+        height: 150px;
     }
         .options>h3 {
             margin: 0 auto;
@@ -41,48 +44,50 @@ h1 {
             background-color: lightskyblue;
             color: gray;
         }
+    .gamelog {
+        display: inline-block;
+        vertical-align: top;
+        width: 90%;
+    }
         .dice {
             display: inline-block;
             vertical-align: top;
             width: 50px;
             height: 50px;
-            border: 1px solid black;
+            border: 1px solid #202020;
+            outline: none;
         }
-    .gamelog {
-        display: inline-block;
-        vertical-align: top;
-        width: 30%;
-    }
-        textarea {
+        .results {
+            margin-top: 10px;
             display: block;
             border: none;
             outline: none;
             width: 98%;
-            height: 98%;
+            height: 300px;
         }
 
-button.accordion {
-    background-color: #eee;
-    color: #444;
-    cursor: pointer;
-    padding: 18px;
-    width: 95%;
-    text-align: left;
-    border: none;
-    outline: none;
-    transition: 0.4s;
+.panel-group {
+    margin: auto;
+    display: inline-block;
+    vertical-align: top;
+    width: 24%;
 }
-    .panel-group {
-        margin: auto;
-        display: inline-block;
-        vertical-align: top;
-        width: 80%;
+    button.accordion {
+        background-color: #eee;
+        color: #444;
+        cursor: pointer;
+        padding: 18px;
+        width: 95%;
+        text-align: left;
+        border: none;
+        outline: none;
+        transition: 0.4s;
     }
         .username {
             display: inline-block;
             vertical-align: top;
             text-align: left;
-            width: 15%;
+            width: 45%;
             font-size: 1.5em;
             font-style: bold;
             background-color: #eee;
@@ -93,7 +98,7 @@ button.accordion {
         .money {
             display: inline-block;
             text-align: right;
-            width: 10%;
+            width: 45%;
             font-size: 1.5em;
             background-color: #eee;
         }
@@ -106,55 +111,50 @@ button.accordion {
                 padding: 4% 1%;
             }
             .yen {
-                font-size: 0.5em;
+                font-size: 0.7em;
                 background-color: mediumpurple;
                 color: black;
             }
-        .landmarks {
-            display: inline-block;
-            vertical-align: top;
-            text-align: right;
-            width: 70%;
-            background-color: #eee;
+
+    .landmarks {
+        display: inline-block;
+        vertical-align: top;
+        width: 95%;
+        background-color: #eee;
+    }
+        .landmarks>button {
+            color: white;
+            width: 23%;
+            height: 50px;
         }
-            .landmarks>button {
-                color: white;
-                width: 50px;
-                height: 50px;
-                margin: 10px;
-            }
-            button.false {
-                background-color: grey;
-            }
-            button.train.true {
-                background-color: lightcoral;
-            } 
-            button.mall.true {
-                background-color: lightseagreen;
-            }
-            button.park.true {
-                background-color: lightsalmon;
-            }
-            button.tower.true {
-                background-color: yellowgreen;
-            }
-            .traincard, .mallcard, .parkcard, .towercard {
-                max-width: 170px;
-                display: none; 
-                z-index: 1;
-                position: fixed;
-                margin: auto;
-                left: 25%;
-                top: 75%;
-            }
-        .panel {
-            background-color: lightgray;
-        }
-        .panel>p {
-            display: inline-block;
+        button.false {
             vertical-align: top;
-            width: 20%;
-            background-color: lightgray;
+            background-color: grey;
+        }
+        button.train.true {
+            vertical-align: top;
+            background-color: lightcoral;
+        } 
+        button.mall.true {
+            vertical-align: top;
+            background-color: lightseagreen;
+        }
+        button.park.true {
+            vertical-align: top;
+            background-color: lightsalmon;
+        }
+        button.tower.true {
+            vertical-align: top;
+            background-color: yellowgreen;
+        }
+        .traincard, .mallcard, .parkcard, .towercard {
+            max-width: 170px;
+            display: none; 
+            z-index: 1;
+            position: fixed;
+            margin: auto;
+            left: 25%;
+            top: 75%;
         }
         /* .playercard {
             outline: 1px dotted black;
@@ -169,13 +169,14 @@ div.panel {
     background-color: white;
     margin: 0 auto 10px auto;
     font-size: 0.8em;
+    overflow-y: scroll;
 }
-    .panel>div>p {
+    /* .panel>div>p {
         background-color: white;
         display: inline-block;
         vertical-align: top;
-    }
-    .cardcats {
+    } */
+    /* .cardcats {
         background-color: white;
         display: inline-block;
         width: 30%;
@@ -186,6 +187,30 @@ div.panel {
         display: inline-block;
         width: 65%;
         vertical-align: top;
+    } */
+    .card.blue {
+        display: block;
+        width: 100%;
+        background-color: white;
+        color: blue;
+    }
+    .card.green {
+        display: block;
+        width: 100%;
+        background-color: white;
+        color: green;
+    }
+    .card.purple {
+        display: block;
+        width: 100%;
+        background-color: white;
+        color: purple;
+    }
+    .card.red {
+        display: block;
+        width: 100%;
+        background-color: white;
+        color: red;
     }
 
 .modal {

@@ -11,6 +11,7 @@ class MachiKoroGame {
         this.winner;
         this.roll1 = 0;
         this.roll2 = 0;
+        this.results = "";
     }
 
     rollResults(rollVal1, rollVal2) {
@@ -18,7 +19,6 @@ class MachiKoroGame {
         this.roll2 = rollVal2;
         let rollVal = rollVal1 + rollVal2;
         let rollKey = "roll" + rollVal;
-        let strResult = '';
         // let strResult = `${this.players[this.turn].username} rolled a ${rollVal}.\n`;
         //pay out to other players' red cards
         var m = this.players.length;
@@ -28,7 +28,7 @@ class MachiKoroGame {
             if (this.players[this.turn].coins > 0 &&  payout > 0) {
                 this.players[this.turn].coins -= payout;
                 this.players[t].coins += payout;
-                strResult += `${this.players[this.turn].username} payed ${this.players[t].username} ${payout} coins.\n`;
+                this.results += `${this.players[this.turn].username} payed ${this.players[t].username} ${payout} coins.\n`;
             }
             t = (t+1) % m;
         }
@@ -41,13 +41,13 @@ class MachiKoroGame {
         }
         this.players[this.turn].coins += greenVal;
         if (greenVal > 0) {
-            strResult += `${this.players[this.turn].username} collected ${greenVal} coins.\n`;
+            this.results += `${this.players[this.turn].username} collected ${greenVal} coins.\n`;
         }
         //all players collect on blue cards
         for (let p of this.players) {
             p.coins += p.rolls[rollKey][0];
             if (p.rolls[rollKey][0] > 0) {
-                strResult += `${p.username} collected ${p.rolls[rollKey][0]} coins.\n`;
+                this.results += `${p.username} collected ${p.rolls[rollKey][0]} coins.\n`;
             }
         }
         //collect on purple cards from other players
@@ -58,19 +58,18 @@ class MachiKoroGame {
                 let payout = (this.players[t].coins < 2) ? this.players[t].coins : 2;
                 this.players[t].coins -= payout;
                 this.players[this.turn].coins += payout;
-                strResult += `${this.players[t].username} payed ${this.players[this.turn].username} ${payout} coins.\n`;
+                this.results += `${this.players[t].username} payed ${this.players[this.turn].username} ${payout} coins.\n`;
                 t = (t+1) % m;
             }
         }
         //TV STATION
-        if (this.players[this.turn].majorEstablishments["tv"]) {
+        // if (this.players[this.turn].majorEstablishments["tv"]) {
             
-        }
-        return strResult;
+        // }
     }
 
     purchaseCard(card) {
-        console.log("purchasing...", card);
+        this.results += `${this.players[this.turn].username} purchased a ${card.name}.\n`;
         this.players[this.turn].coins -= card.cost;
         this.players[this.turn].catCount[card.category]++;
         for (let i = 0; i < card.roll.length; i++) {
@@ -120,8 +119,10 @@ class MachiKoroGame {
 
     purchaseLandmark(info) {
         let cost = [4, 10, 16, 22];
+        let landmarks = ["Train Station", "Shopping Mall", "Amusement Park", "Radio Tower"];
         this.players[this.turn].coins -= cost[info.landmark];
         this.players[this.turn].progress[info.landmark] = true;
+        this.results += `${this.players[this.turn].username} constructed a ${landmarks[info.landmark]}.\n`;
         if (this.players[this.turn].progress[0] && this.players[this.turn].progress[1] && this.players[this.turn].progress[2] && this.players[this.turn].progress[3]) {
             this.gameOver = true;
             this.winner = this.players[this.turn];
@@ -147,6 +148,7 @@ class MachiKoroGame {
     }
 
     switchTurns() {
+        this.results += '\n';
         this.turn = (this.turn+1) % this.players.length;
         return this.players[this.turn].socketId;
     }

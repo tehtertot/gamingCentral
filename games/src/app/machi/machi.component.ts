@@ -44,7 +44,6 @@ export class MachiComponent implements OnInit, OnDestroy {
   rolled: boolean = false;
   rollCount = 0;
   canPurchase: boolean = false;
-  results: string = '';
   subscriptions: Array<Subscription> = [];
   tvUser;
 
@@ -72,8 +71,7 @@ export class MachiComponent implements OnInit, OnDestroy {
       this.game = newGame;
     });
     let game_sub = this._socket.gameUpdated().subscribe((updatedGame) => {
-      this.game = updatedGame["game"];
-      this.results = updatedGame["results"];
+      this.game = updatedGame;
       document.getElementById('die1').setAttribute('src', `/machi/green${this.game["roll1"]}.png`);
       this.state1 = (this.state1 === 'nospin1' ? 'spin1' : 'nospin1');
       if (this.game["roll2"] > 0) {

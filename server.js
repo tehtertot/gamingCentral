@@ -127,31 +127,27 @@ machi.on('connection', (socket) => {
     });
     
     socket.on('rolled', (rollInfo) => {
-        let results = games[rollInfo.gameId].rollResults(rollInfo.rollVal1, rollInfo.rollVal2);
-        let info = {results: results, game: games[rollInfo.gameId]};
-        machi.to(rollInfo.gameId).emit('gameUpdated', info);
+        games[rollInfo.gameId].rollResults(rollInfo.rollVal1, rollInfo.rollVal2);
+        machi.to(rollInfo.gameId).emit('gameUpdated', games[rollInfo.gameId]);
     });
 
     socket.on('purchased', (info) => {
         games[info.gameId].purchaseCard(info.card);
-        let res = {results: "", game: games[info.gameId]};
         let p = games[info.gameId].switchTurns();
-        machi.to(info.gameId).emit('gameUpdated', res);
+        machi.to(info.gameId).emit('gameUpdated', games[info.gameId]);
     });
 
     socket.on('landmark', (info) => {
         let g = games[info.gameId];
         g.purchaseLandmark(info);
-        let res = {results: "", game: g};
         if (!g.gameOver || !(g.players[g.turn].progress[2] && g.roll1 == g.roll2)) {
             games[info.gameId].switchTurns();
         }
-        machi.to(info.gameId).emit('gameUpdated', res);
+        machi.to(info.gameId).emit('gameUpdated', g);
     });
 
     socket.on('passed', (info) => {
         games[info.gameId].switchTurns();
-        let res = {results: '', game: games[info.gameId]};
-        machi.to(info.gameId).emit('gameUpdated', res);
+        machi.to(info.gameId).emit('gameUpdated', games[info.gameId]);
     });
 })
