@@ -108,11 +108,20 @@ machi.on('connection', (socket) => {
             games[roomInfo.id] = g;
         }
         else {
-            let p = new MachiPlayer(roomInfo.player.playerId, roomInfo.player.username, socket.id);
-            games[roomInfo.id].players.push(p);
-            //once enough players are in, start game
-            if (games[roomInfo.id].players.length == games[roomInfo.id].totalPlayers) {
-                machi.to(roomInfo.id).emit('startMKGame', games[roomInfo.id]);
+            let existing = false;
+            for (let existingPl of games[roomInfo.id].players) {
+                if (existingPl.playerId == roomInfo.player.playerId) {
+                    existing = true;
+                    break;
+                }
+            }
+            if (!existing) {
+                let p = new MachiPlayer(roomInfo.player.playerId, roomInfo.player.username, socket.id);
+                games[roomInfo.id].players.push(p);
+                //once enough players are in, start game
+                if (games[roomInfo.id].players.length == games[roomInfo.id].totalPlayers) {
+                    machi.to(roomInfo.id).emit('startMKGame', games[roomInfo.id]);
+                }
             }
         }
     });

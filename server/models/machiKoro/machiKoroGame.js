@@ -33,7 +33,6 @@ class MachiKoroGame {
             t = (t+1) % m;
         }
         //collect on rolling player's regular green cards
-        console.log("GREEN CARDS:", this.players[this.turn].rolls);
         let greenVal = this.players[this.turn].rolls[rollKey][1];
         //collect on rolling player's multiplicative green cards
         let mult = this.players[this.turn].rolls[rollKey][3];
@@ -53,7 +52,7 @@ class MachiKoroGame {
         }
         //collect on purple cards from other players
         //STADIUM
-        if (this.players[this.turn].majorEstablishments["stadium"]) {
+        if (this.players[this.turn].majorEstablishments["stadium"] && rollVal == 6) {
             t = (this.turn + 1) % m;
             while (t != this.turn) {
                 let payout = (this.players[t].coins < 2) ? this.players[t].coins : 2;
