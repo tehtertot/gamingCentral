@@ -18,7 +18,8 @@ class MachiKoroGame {
         this.roll2 = rollVal2;
         let rollVal = rollVal1 + rollVal2;
         let rollKey = "roll" + rollVal;
-        let strResult = `${this.players[this.turn].username} rolled a ${rollVal}.\n`;
+        let strResult = '';
+        // let strResult = `${this.players[this.turn].username} rolled a ${rollVal}.\n`;
         //pay out to other players' red cards
         var m = this.players.length;
         var t = (this.turn + 1) % m;
@@ -69,7 +70,6 @@ class MachiKoroGame {
         return strResult;
     }
 
-
     purchaseCard(card) {
         console.log("purchasing...", card);
         this.players[this.turn].coins -= card.cost;
@@ -87,9 +87,15 @@ class MachiKoroGame {
                     this.players[this.turn].rolls[idx][3] += card.reward;
                     this.players[this.turn].rolls[idx][4] = card.multCat;
                 }
+                if (card.category == 'store' && this.players[this.turn].progress[1]) {
+                    this.players[this.turn].rolls[idx][1]++;
+                }
             }
             else if (card.type == 'red') {
                 this.players[this.turn].rolls[idx][2] += card.reward;
+                if (this.players[this.turn].progress[1]) {
+                    this.players[this.turn].rolls[idx][2]++;
+                }
             }
             else if (card.type == 'purple') {
                 if (card.name == 'Stadium') {
@@ -111,6 +117,34 @@ class MachiKoroGame {
             }
         }
         this.deck.drawCard();
+    }
+
+    purchaseLandmark(info) {
+        let cost = [4, 10, 16, 22];
+        this.players[this.turn].coins -= cost[info.landmark];
+        this.players[this.turn].progress[info.landmark] = true;
+        if (this.players[this.turn].progress[0] && this.players[this.turn].progress[1] && this.players[this.turn].progress[2] && this.players[this.turn].progress[3]) {
+            this.gameOver = true;
+            this.winner = this.players[this.turn];
+        }
+        else {
+            if (info.landmark == 1) {
+                for (let p of this.players[this.turn].cards) {
+                    if (p.category == 'store') {
+                        for (let i in p.roll) {
+                            let idx = 'roll' + p.roll[i];
+                            this.players[this.turn].rolls[idx][1]++;
+                        }
+                    }
+                    else if (p.category == 'restaurant') {
+                        for (let i in p.roll) {
+                            let idx = 'roll' + p.roll[i];
+                            this.players[this.turn].rolls[idx][2]++;
+                        }
+                    }
+                }
+            }
+        }
     }
 
     switchTurns() {

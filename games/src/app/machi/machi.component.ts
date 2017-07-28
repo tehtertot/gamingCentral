@@ -47,8 +47,6 @@ export class MachiComponent implements OnInit, OnDestroy {
   results: string = '';
   subscriptions: Array<Subscription> = [];
   tvUser;
-  die1 = false;
-  die2 = false;
 
   constructor(private _socket: MachiKoroSocketsService, private _users: UserService, private _myRoute: ActivatedRoute, private _router: Router) { 
     this._myRoute.params.subscribe((param) => { 
@@ -131,8 +129,6 @@ export class MachiComponent implements OnInit, OnDestroy {
       this.rolled = true;
       let roll1 = Math.floor(Math.random()*6)+1;
       let roll2 = Math.floor(Math.random()*6)+1;
-      this.die1 = true;
-      this.die2 = true;
       let play = {id: this.currentUser, rollVal1: roll1, rollVal2: roll2, gameId: this.gameId};
       this._socket.gameRoll(play);
     }

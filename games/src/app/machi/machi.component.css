@@ -144,8 +144,8 @@ button.accordion {
                 z-index: 1;
                 position: fixed;
                 margin: auto;
-                left: 50%;
-                top: 50%;
+                left: 25%;
+                top: 75%;
             }
         .panel {
             background-color: lightgray;

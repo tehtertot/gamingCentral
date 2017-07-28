@@ -131,16 +131,10 @@ machi.on('connection', (socket) => {
     });
 
     socket.on('landmark', (info) => {
-        let cost = [4, 10, 16, 22];
         let g = games[info.gameId];
-        g.players[g.turn].coins -= cost[info.landmark];
-        g.players[g.turn].progress[info.landmark] = true;
-        let res = {results: "", game: games[info.gameId]};
-        if (g.players[g.turn].progress[0] && g.players[g.turn].progress[1] && g.players[g.turn].progress[2] && g.players[g.turn].progress[3]) {
-            games[info.gameId].gameOver = true;
-            games[info.gameId].winner = g.players[g.turn];
-        }
-        else {
+        g.purchaseLandmark(info);
+        let res = {results: "", game: g};
+        if (!g.gameOver || !(g.players[g.turn].progress[2] && g.roll1 == g.roll2)) {
             games[info.gameId].switchTurns();
         }
         machi.to(info.gameId).emit('gameUpdated', res);
