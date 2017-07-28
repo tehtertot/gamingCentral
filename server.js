@@ -118,7 +118,7 @@ machi.on('connection', (socket) => {
     });
     
     socket.on('rolled', (rollInfo) => {
-        let results = games[rollInfo.gameId].rollResults(rollInfo.rollVal);
+        let results = games[rollInfo.gameId].rollResults(rollInfo.rollVal1, rollInfo.rollVal2);
         let info = {results: results, game: games[rollInfo.gameId]};
         machi.to(rollInfo.gameId).emit('gameUpdated', info);
     });

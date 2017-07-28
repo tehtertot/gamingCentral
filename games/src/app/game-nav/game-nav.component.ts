@@ -99,8 +99,8 @@ export class GameNavComponent implements OnInit {
     }
     else if (game == 'machi') {
       this.instructions.name = 'Machi Koro';
-      this.instructions.goal = 'Be the first to build all your city attractions.';
-      this.instructions.rules = '';
+      this.instructions.goal = "Be the first to build all your city's landmarks.";
+      this.instructions.rules = "1. The activating roll value is at the top of each card. The cost of the card is in the bottom left corner. For landmarks (Train Station, Shopping Mall, Amusement Park, and Radio Tower), the cost of construction is in the bottom left corner. Each comes with special abilities. \n\n2. Roll one or two dice (you can only roll 2 if you have constructed the Train Station landmark). \n\n3. All players collect based on the roll and the cards they have. Red cards earn first, then blue and green, and then purple. \n\t Note: the rolling player pays out reds in counter-clockwise order. \n\n4. Choose to construct either an establishment (from the Marketplace) or a landmark. As cards are purchased, a new card from the deck is drawn and added to the marketplace. \n\n5. The game ends when a player has constructed all their landmarks.";
     }
     else if (game == 'sw') {
       this.instructions.name = '7 Wonders';

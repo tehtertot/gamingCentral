@@ -9,14 +9,19 @@ class MachiKoroGame {
         this.totalPlayers = totalPlayers;   //initial input from first user for number of players
         this.gameOver = false;
         this.winner;
+        this.roll1 = 0;
+        this.roll2 = 0;
     }
 
-    rollResults(rollVal) {
+    rollResults(rollVal1, rollVal2) {
+        this.roll1 = rollVal1;
+        this.roll2 = rollVal2;
+        let rollVal = rollVal1 + rollVal2;
         let rollKey = "roll" + rollVal;
         let strResult = `${this.players[this.turn].username} rolled a ${rollVal}.\n`;
         //pay out to other players' red cards
-        let m = this.players.length;
-        let t = (this.turn + 1) % m;
+        var m = this.players.length;
+        var t = (this.turn + 1) % m;
         while (t != this.turn) {
             let payout = this.players[t].rolls[rollKey][2];
             if (this.players[this.turn].coins > 0 &&  payout > 0) {
@@ -26,8 +31,14 @@ class MachiKoroGame {
             }
             t = (t+1) % m;
         }
-        //collect on rolling player's green cards
+        //collect on rolling player's regular green cards
+        console.log("GREEN CARDS:", this.players[this.turn].rolls);
         let greenVal = this.players[this.turn].rolls[rollKey][1];
+        //collect on rolling player's multiplicative green cards
+        let mult = this.players[this.turn].rolls[rollKey][3];
+        if (mult) {
+            greenVal += mult * this.players[this.turn].catCount[this.players[this.turn].rolls[rollKey][4]];
+        }
         this.players[this.turn].coins += greenVal;
         if (greenVal > 0) {
             strResult += `${this.players[this.turn].username} collected ${greenVal} coins.\n`;
@@ -40,19 +51,42 @@ class MachiKoroGame {
             }
         }
         //collect on purple cards from other players
-
+        //STADIUM
+        if (this.players[this.turn].majorEstablishments["stadium"]) {
+            t = (this.turn + 1) % m;
+            while (t != this.turn) {
+                let payout = (this.players[t].coins < 2) ? this.players[t].coins : 2;
+                this.players[t].coins -= payout;
+                this.players[this.turn].coins += payout;
+                strResult += `${this.players[t].username} payed ${this.players[this.turn].username} ${payout} coins.\n`;
+                t = (t+1) % m;
+            }
+        }
+        //TV STATION
+        if (this.players[this.turn].majorEstablishments["tv"]) {
+            
+        }
         return strResult;
     }
 
+
     purchaseCard(card) {
+        console.log("purchasing...", card);
         this.players[this.turn].coins -= card.cost;
+        this.players[this.turn].catCount[card.category]++;
         for (let i = 0; i < card.roll.length; i++) {
             let idx = "roll" + card.roll[i];
             if (card.type == 'blue') {
                 this.players[this.turn].rolls[idx][0] += card.reward;
             } 
             else if (card.type == 'green') {
-                this.players[this.turn].rolls[idx][1] += card.reward;
+                if (!card.isMult) {
+                    this.players[this.turn].rolls[idx][1] += card.reward;
+                }
+                else {
+                    this.players[this.turn].rolls[idx][3] += card.reward;
+                    this.players[this.turn].rolls[idx][4] = card.multCat;
+                }
             }
             else if (card.type == 'red') {
                 this.players[this.turn].rolls[idx][2] += card.reward;

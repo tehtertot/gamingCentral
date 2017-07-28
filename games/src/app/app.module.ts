@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { HttpModule } from '@angular/http';
 import { FormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { EqualValidator } from './equal-validator.directive';
 
@@ -37,7 +38,8 @@ import { MachiComponent } from './machi/machi.component';
     BrowserModule,
     AppRoutingModule,
     HttpModule,
-    FormsModule
+    FormsModule,
+    BrowserAnimationsModule
   ],
   providers: [UserService,
               GamesService,
