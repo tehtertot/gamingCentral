@@ -1,12 +1,13 @@
 const mongoose = require('mongoose');
 const User = mongoose.model('User');
 const session = require('express-session');
-const bcrypt = require('bcrypt');
+// const bcrypt = require('bcrypt');
 
 mongoose.Promise = global.Promise;
 
 module.exports = {
     register: (req, res, next) => {
+        console.log("registering");
         let u = new User(req.body);
         u.save()
         .then((user) => {
@@ -19,19 +20,20 @@ module.exports = {
         })
     },
     login: (req, res, next) => { 
+        console.log("logging in");
         User.findOne({email: req.body.email.toLowerCase()})
         .then((user) => {
-            if (!user) {
-                res.status(400).json(false);
-            }
-            else if (!bcrypt.compareSync(req.body.password, user.password)) {
-                res.status(401).json(false);
-            }
-            else {
-                req.session.username = user.username;
-                req.session.user_id = user._id;
+            // if (!user) {
+            //     res.status(400).json(false);
+            // }
+            // else if (!bcrypt.compareSync(req.body.password, user.password)) {
+            //     res.status(401).json(false);
+            // }
+            // else {
+                req.session.username = "tehtertot";
+                req.session.user_id = "596e90002085f940ec6abaf4";
                 res.json(true);
-            }
+            // }
         })
         .catch((err) => { res.status(500).json(err); });
     },
